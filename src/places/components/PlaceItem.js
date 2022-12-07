@@ -8,10 +8,24 @@ import Map from "../../shared/components/UIElements/Map";
 
 const PlaceItem = (props) => {
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => setShowMap(true);
 
   const closeMapHandler = () => setShowMap(false);
+
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true);
+  };
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false);
+  };
+
+  const confirmDeleteHandler = () => {
+    setShowConfirmModal(false);
+    console.log("DELETING..");
+  };
 
   return (
     <>
@@ -24,8 +38,25 @@ const PlaceItem = (props) => {
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className="map-container">
-            <Map />
+          <Map />
         </div>
+      </Modal>
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footerClass="place-item__modal-actions"
+        footer={
+          <>
+            <Button inverse onClick={cancelDeleteHandler}>Cancel</Button>
+            <Button danger onClick={confirmDeleteHandler}>Delete</Button>
+          </>
+        }
+      >
+        <p>
+          Do you really want to delete this ? please note that after delete it
+          will not be undone.
+        </p>
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
@@ -38,9 +69,11 @@ const PlaceItem = (props) => {
             <p>{props.description}</p>
           </div>
           <div className="place-item__actions">
-            <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
-            <Button TO={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            <Button inverse onClick={openMapHandler}>
+              VIEW ON MAP
+            </Button>
+            <Button to={`/places/${props.id}`}>EDIT</Button>
+            <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
           </div>
         </Card>
       </li>

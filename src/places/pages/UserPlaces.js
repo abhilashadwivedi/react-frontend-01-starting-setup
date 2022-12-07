@@ -27,7 +27,8 @@ const DUMMY_PLACES =[
         lng:-73.9856644
     },
     creator: 'u2'
-}];
+}
+];
 
 const UserPlaces = () => {
     const userId =  useParams().userId;
